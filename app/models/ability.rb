@@ -7,12 +7,23 @@ class Ability
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)
-      if user.adm?
-         can :manage, :all
-      else
-        can [:read], Book
-        can [:create, :read], Booklet
+
+    if Rails.application.credentials.fetch(:adm_role)
+
+      begin 
+        if user.adm?
+          can :manage, :all
+        else
+          can [:read], Book
+          can [:create, :read], Booklet
+        end
+      rescue
+        #adm=null sem permisões
       end
+
+    else
+          can :manage, :all  
+    end
     #
     # The first argument to `can` is the action you are giving the user
     # permission to do.

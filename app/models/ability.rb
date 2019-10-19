@@ -8,7 +8,7 @@ class Ability
     #
     #   user ||= User.new # guest user (not logged in)
 
-    if Rails.application.credentials.fetch(:adm_role)
+    if ENV['adm_role']== "true"
 
       begin 
         if user.adm?
